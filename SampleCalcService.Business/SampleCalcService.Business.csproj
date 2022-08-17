@@ -47,5 +47,15 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SampleCalcService.DAL\SampleCalcService.DAL.csproj">
+      <Project>{c3ef7366-001e-44cd-82d6-d40650d21bda}</Project>
+      <Name>SampleCalcService.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SampleCalcService.Entities\SampleCalcService.Entities.csproj">
+      <Project>{b254aae0-0267-49f0-ae0b-5bbd748e5cd0}</Project>
+      <Name>SampleCalcService.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

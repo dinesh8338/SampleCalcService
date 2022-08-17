@@ -1,5 +1,6 @@
 ﻿using SampleCalcService.Business;
 using SampleCalcService.Entities;
+using SampleCalcService.Entities.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace SampleCalcService.Controllers
         {
             try
             {
-                var xmldata = CalculatorOps.FromXElement<List<Maths>>(value);
+                var calcprocess = new CalculatorOps().CalcProcess(value);
             }
             catch (Exception ex) { }
         }

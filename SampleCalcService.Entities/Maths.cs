@@ -7,18 +7,25 @@ using System.Xml.Serialization;
 
 namespace SampleCalcService.Entities
 {
-    [Serializable, XmlRoot(ElementName = "Maths", DataType = "string", IsNullable = false), XmlType("Maths")]
-    public class Maths
-    {
-        [XmlElement("Opertaion")]
-        public List<Operations> Operation { get; } = new List<Operations>();
-        [XmlElement("Value")]
-        public List<int> Value { get; set; }
-    }
-    public class Operations
+    [XmlRoot(ElementName = "Operation")]
+    public class Operation
     {
 
-        [XmlAttribute("ID")]
-        public string ops { set; get; }
+        [XmlElement(ElementName = "Value")]
+        public List<int> Value { get; set; }
+
+        [XmlAttribute(AttributeName = "ID")]
+        public string ID { get; set; }
+
+        [XmlText]
+        public string Text { get; set; }
+    }
+
+    [XmlRoot(ElementName = "Maths")]
+    public class Maths
+    {
+
+        [XmlElement(ElementName = "Operation")]
+        public List<Operation> Operation { get; set; }
     }
 }

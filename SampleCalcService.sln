@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleCalcService.Business"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleCalcService.Entities", "SampleCalcService.Entities\SampleCalcService.Entities.csproj", "{B254AAE0-0267-49F0-AE0B-5BBD748E5CD0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleCalcService.DAL", "SampleCalcService.DAL\SampleCalcService.DAL.csproj", "{C3EF7366-001E-44CD-82D6-D40650D21BDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B254AAE0-0267-49F0-AE0B-5BBD748E5CD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B254AAE0-0267-49F0-AE0B-5BBD748E5CD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B254AAE0-0267-49F0-AE0B-5BBD748E5CD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3EF7366-001E-44CD-82D6-D40650D21BDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3EF7366-001E-44CD-82D6-D40650D21BDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3EF7366-001E-44CD-82D6-D40650D21BDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3EF7366-001E-44CD-82D6-D40650D21BDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
