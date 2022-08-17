@@ -43,7 +43,8 @@ namespace SampleCalcService.Business
             }
         }
 
-        public XElement CalcProcess(XElement value) {
+        public string CalcProcess(XElement value) 
+        {
             var xmldata = FromXElement<Maths>(value);
             for (int i= 0; i < xmldata.Operation.Count; i++)
             {
@@ -70,7 +71,7 @@ namespace SampleCalcService.Business
                 }
 
             }
-            return ToXElement<Maths>(xmldata);
+            return ToXElement<Maths>(xmldata).ToString();
         }
     }
 }

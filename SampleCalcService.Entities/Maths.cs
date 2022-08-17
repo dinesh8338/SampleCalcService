@@ -20,7 +20,9 @@ namespace SampleCalcService.Entities
         [XmlText]
         public string Text { get; set; }
         [XmlElement(ElementName = "Result")]
-        public string Result { get; set; }
+        public string Result { get { return result; } set { result = value; } }
+
+        private string result;
     }
 
     [XmlRoot(ElementName = "Maths")]

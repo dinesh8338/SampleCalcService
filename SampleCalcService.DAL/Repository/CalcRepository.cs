@@ -12,42 +12,30 @@ namespace SampleCalcService.DAL.Repository
     {
         public string AdditionOperation(List<int> values)
         {
-            int sum = 0;
-            foreach (int i in values)
-            {
-                sum += i;
-            }
-            return sum.ToString();
+            if (values != null && values.Count > 1)
+                return values.Aggregate((x, y) => x + y).ToString();
+            return "0";
         }
 
         public string SubractionOperation(List<int> values)
         {
-            int res = 0;
-            foreach (int i in values)
-            {
-                res -= i;
-            }
-            return res.ToString();
+            if (values != null && values.Count > 1)
+                return values.Aggregate((x, y) => x - y).ToString();
+            return "0";
         }
 
         public string MultiplicationOperation(List<int> values)
         {
-            int res = 1;
-            foreach (int i in values)
-            {
-                res *= i;
-            }
-            return res.ToString();
+            if (values != null && values.Count > 1)
+                return values.Aggregate((x, y) => x * y).ToString();
+            return "0";
         }
 
         public string DivisionOperation(List<int> values)
         {
-            int res = 1;
-            foreach (int i in values)
-            {
-                res /= i;
-            }
-            return res.ToString();
+            if (values != null && values.Count > 1)
+                return values.Aggregate((x, y) => x / y).ToString();
+            return "0";
         }
     }
 }

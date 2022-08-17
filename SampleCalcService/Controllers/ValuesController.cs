@@ -33,7 +33,7 @@ namespace SampleCalcService.Controllers
             try
             {
                 var calcprocess = new CalculatorOps().CalcProcess(value);
-                return new HttpResponseMessage() { Content = new StringContent(calcprocess.ToString(), Encoding.UTF8, "application/xml") };
+                return new HttpResponseMessage() { Content = new StringContent(calcprocess, Encoding.UTF8, "application/xml") };
                 //return calcprocess;
             }
             catch (Exception ex)
