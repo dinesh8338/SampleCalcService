@@ -9,9 +9,9 @@ namespace SampleCalcService.DAL.Interface
 {
     interface ICalcRepository
     {
-        string AdditionOperation(string ops, List<int> values);
-        string MultiplicationOperation(Maths math);
-        string SubractionOperation(Maths math);
-        string DivisionOperation(Maths math);
+        string AdditionOperation(List<int> values);
+        string MultiplicationOperation(List<int> values);
+        string SubractionOperation(List<int> values);
+        string DivisionOperation(List<int> values);
     }
 }

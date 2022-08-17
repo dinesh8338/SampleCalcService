@@ -10,28 +10,44 @@ namespace SampleCalcService.DAL.Repository
 {
     public class CalcRepository : ICalcRepository
     {
-        public string AdditionOperation(string ops, List<int> values)
+        public string AdditionOperation(List<int> values)
         {
             int sum = 0;
-         foreach(int i in values)
+            foreach (int i in values)
             {
                 sum += i;
-            }   
+            }
+            return sum.ToString();
         }
 
-        public string DivisionOperation(Maths math)
+        public string SubractionOperation(List<int> values)
         {
-            throw new NotImplementedException();
+            int res = 0;
+            foreach (int i in values)
+            {
+                res -= i;
+            }
+            return res.ToString();
         }
 
-        public string MultiplicationOperation(Maths math)
+        public string MultiplicationOperation(List<int> values)
         {
-            throw new NotImplementedException();
+            int res = 1;
+            foreach (int i in values)
+            {
+                res *= i;
+            }
+            return res.ToString();
         }
 
-        public string SubractionOperation(Maths math)
+        public string DivisionOperation(List<int> values)
         {
-            throw new NotImplementedException();
+            int res = 1;
+            foreach (int i in values)
+            {
+                res /= i;
+            }
+            return res.ToString();
         }
     }
 }

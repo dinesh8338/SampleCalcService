@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 using SampleCalcService.Entities;
 using SampleCalcService.Entities.Enum;
 using SampleCalcService.DAL.Repository;
+using System.IO;
 
 namespace SampleCalcService.Business
 {
@@ -29,7 +30,20 @@ namespace SampleCalcService.Business
             }
         }
 
-        public string CalcProcess(XElement value) {
+        public static XElement ToXElement<T>(object obj)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                using (TextWriter streamWriter = new StreamWriter(memoryStream))
+                {
+                    var xmlSerializer = new XmlSerializer(typeof(T));
+                    xmlSerializer.Serialize(streamWriter, obj);
+                    return XElement.Parse(Encoding.ASCII.GetString(memoryStream.ToArray()));
+                }
+            }
+        }
+
+        public XElement CalcProcess(XElement value) {
             var xmldata = FromXElement<Maths>(value);
             for (int i= 0; i < xmldata.Operation.Count; i++)
             {
@@ -37,20 +51,26 @@ namespace SampleCalcService.Business
                 switch (myenum)
                 {
                     case CalcEnum.Plus:
-                        var result = new CalcRepository().AdditionOperation(xmldata.Operation[i].ID, xmldata.Operation[i].Value);
+                        var addRes = new CalcRepository().AdditionOperation(xmldata.Operation[i].Value);
+                        xmldata.Operation[i].Result = addRes;
                         break;
                     case CalcEnum.Subraction:
+                        var subRes = new CalcRepository().SubractionOperation(xmldata.Operation[i].Value);
+                        xmldata.Operation[i].Result = subRes;
                         break;
                     case CalcEnum.Multiplication:
+                        var mulRes = new CalcRepository().MultiplicationOperation(xmldata.Operation[i].Value);
+                        xmldata.Operation[i].Result= mulRes;
                         break;
                     case CalcEnum.Division:
+                        var divRes = new CalcRepository().DivisionOperation(xmldata.Operation[i].Value);
+                        xmldata.Operation[i].Result = divRes;
                         break;
 
                 }
 
             }
-            return null;
+            return ToXElement<Maths>(xmldata);
         }
-
     }
 }

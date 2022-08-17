@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web.Http;
 using System.Xml.Linq;
 
@@ -27,13 +28,18 @@ namespace SampleCalcService.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] XElement value)
+        public HttpResponseMessage Post([FromBody] XElement value)
         {
             try
             {
                 var calcprocess = new CalculatorOps().CalcProcess(value);
+                return new HttpResponseMessage() { Content = new StringContent(calcprocess.ToString(), Encoding.UTF8, "application/xml") };
+                //return calcprocess;
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         // PUT api/values/5
