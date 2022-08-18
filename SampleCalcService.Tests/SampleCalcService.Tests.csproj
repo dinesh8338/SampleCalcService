@@ -96,11 +96,17 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.abstractions.2.0.3\lib\net35\xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.4.2.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.core.2.4.2\lib\net452\xunit.core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalculatorOpsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
-    <Compile Include="Controllers\ValuesControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -109,6 +115,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SampleCalcService.Business\SampleCalcService.Business.csproj">
+      <Project>{24A04DC2-CD7F-47A3-B5C7-03D5EFA7AAB5}</Project>
+      <Name>SampleCalcService.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SampleCalcService.Entities\SampleCalcService.Entities.csproj">
+      <Project>{B254AAE0-0267-49F0-AE0B-5BBD748E5CD0}</Project>
+      <Name>SampleCalcService.Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SampleCalcService\SampleCalcService.csproj">
       <Project>{B11C119C-E713-4956-B85E-9AFF3F1E3C9E}</Project>
       <Name>SampleCalcService</Name>

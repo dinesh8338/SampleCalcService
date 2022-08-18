@@ -14,42 +14,19 @@ namespace SampleCalcService.Controllers
 {
     public class ValuesController : ApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/values/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/values
         [HttpPost]
         public HttpResponseMessage Post([FromBody] XElement value)
         {
-            try
+            var calcprocess = new CalculatorOps().CalcProcess(value);
+            if(calcprocess != null)
             {
-                var calcprocess = new CalculatorOps().CalcProcess(value);
-                return new HttpResponseMessage() { Content = new StringContent(calcprocess, Encoding.UTF8, "application/xml") };
-                //return calcprocess;
+               return new HttpResponseMessage() { Content = new StringContent(calcprocess, Encoding.UTF8, "application/xml") };
             }
-            catch (Exception ex)
+            else
             {
-                return null;
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
-        }
-
-        // PUT api/values/5
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
         }
     }
 }
