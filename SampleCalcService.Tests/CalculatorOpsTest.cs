@@ -17,7 +17,41 @@ namespace SampleCalcService.Tests
     {
         [TestMethod]
         [Fact]
-        public void CalcProcess_isvalidinput_shouldreturnresult()
+        public void CalcProcess_ValidInput_Case1()
+        {
+            //Arrange 
+
+            var xmlstring = "<Maths><Operation ID='Plus'><Value>2</Value><Value>3</Value><Operation ID='Multiplication'><Value>4</Value><Value>5</Value></Operation></Operation></Maths>";
+            Maths maths = new Maths();
+            maths.Operation = new List<Operation>();
+            Operation operation = new Operation();
+            operation.ID = "Plus";
+            operation.Value = new List<int>();
+            operation.Value.Add(2);
+            operation.Value.Add(3);
+            operation.Result = "5";
+            operation.Operation_Sub = new Operation()
+            {
+                ID = "Multiplication",
+                Value = new List<int>() { 4, 5 },
+                Result = "20"
+            };
+            maths.Operation.Add(operation);
+            var expectedResult = CalculatorOps.ToXElement<Maths>(maths);
+            var xElement = XElement.Parse(xmlstring);
+
+            //ACT
+            CalculatorOps calculatorOps = new CalculatorOps();
+            var result = calculatorOps.CalcProcess(xElement);
+            //Assert
+            Assert.IsTrue(maths != null);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedResult.ToString(), result);
+        }
+
+        [TestMethod]
+        [Fact]
+        public void CalcProcess_ValidInput_Case2()
         {
             //Arrange 
 
@@ -40,25 +74,23 @@ namespace SampleCalcService.Tests
             maths.Operation.Add(operation1);
             var expectedResult = CalculatorOps.ToXElement<Maths>(maths);
             var xElement = XElement.Parse(xmlstring);
-            //XmlRootAttribute xRoot = new XmlRootAttribute();
-            //xRoot.ElementName = "Maths";
-            //xRoot.IsNullable = true;
+
             //ACT
             CalculatorOps calculatorOps = new CalculatorOps();
             var result = calculatorOps.CalcProcess(xElement);
             //Assert
             Assert.IsTrue(maths != null);
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.Contains("<Result>5</Result>"));
-            Assert.IsTrue(result.Contains("<Result>20</Result>"));
             Assert.AreEqual(expectedResult.ToString(), result);
         }
 
         [TestMethod]
         [Fact]
-        public void CalcProcess_isInvalidinput_shouldreturnresult()
+        public void CalcProcess_ValidInput_Case3()
         {
             //Arrange 
+
+            var xmlstring = "<Maths><Operation ID='Plus'><Value>2</Value><Value>3</Value><Operation ID='Multiplication'><Value>4</Value><Value>5</Value><Operation ID='Subtraction'><Value>9</Value><Value>5</Value></Operation></Operation></Operation></Maths>";
             Maths maths = new Maths();
             maths.Operation = new List<Operation>();
             Operation operation = new Operation();
@@ -67,15 +99,36 @@ namespace SampleCalcService.Tests
             operation.Value.Add(2);
             operation.Value.Add(3);
             operation.Result = "5";
+            operation.Operation_Sub = new Operation()
+            {
+                ID = "Multiplication",
+                Value = new List<int>() { 4, 5 },
+                Result = "20",
+                Operation_Sub = new Operation()
+                {
+                    ID = "Subtraction",
+                    Value = new List<int>() { 9, 5},
+                    Result = "4"
+                }
+            };
             maths.Operation.Add(operation);
-            Operation operation1 = new Operation();
-            operation1.ID = "Multiplication";
-            operation1.Value = new List<int>();
-            operation1.Value.Add(4);
-            operation1.Value.Add(5);
-            operation1.Result = "20";
-            maths.Operation.Add(operation1);
             var expectedResult = CalculatorOps.ToXElement<Maths>(maths);
+            var xElement = XElement.Parse(xmlstring);
+
+            //ACT
+            CalculatorOps calculatorOps = new CalculatorOps();
+            var result = calculatorOps.CalcProcess(xElement);
+            //Assert
+            Assert.IsTrue(maths != null);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedResult.ToString(), result);
+        }
+
+        [TestMethod]
+        [Fact]
+        public void CalcProcess_isInvalidinput_shouldreturnresult()
+        {
+            //Arrange 
             XElement xElement = null;
             //ACT
             CalculatorOps calculatorOps = new CalculatorOps();

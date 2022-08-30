@@ -11,17 +11,18 @@ using SampleCalcService.DAL.Repository;
 using System.IO;
 using System.Net.Http;
 using System.Net;
+using System.Reflection;
 
 namespace SampleCalcService.Business
 {
     public class CalculatorOps
     {
-        public static T FromXElement<T>(XElement xElement)
+        public static T FromXElement<T>(XElement xElement, string rootElement)
         {
             try
             {
                 XmlRootAttribute xRoot = new XmlRootAttribute();
-                xRoot.ElementName = "Maths";
+                xRoot.ElementName = rootElement;
                 xRoot.IsNullable = true;
                 var xmlSerializer = new XmlSerializer(typeof(T), xRoot);
                 return (T)xmlSerializer.Deserialize(xElement.CreateReader());
@@ -47,41 +48,65 @@ namespace SampleCalcService.Business
 
         public string CalcProcess(XElement value) 
         {
+            Maths maths = new Maths();
             if(value != null)
             {
-                var xmldata = FromXElement<Maths>(value);
-                for (int i = 0; i < xmldata.Operation.Count; i++)
+                maths = FromXElement<Maths>(value, "Maths");
+                for (int i = 0; i < maths.Operation.Count; i++)
                 {
-                    var myenum = (CalcEnum)Enum.Parse(typeof(CalcEnum), xmldata.Operation[i].ID);
-                    switch (myenum)
-                    {
-                        case CalcEnum.Plus:
-                            var addRes = new CalcRepository().AdditionOperation(xmldata.Operation[i].Value);
-                            xmldata.Operation[i].Result = addRes;
-                            break;
-                        case CalcEnum.Subraction:
-                            var subRes = new CalcRepository().SubractionOperation(xmldata.Operation[i].Value);
-                            xmldata.Operation[i].Result = subRes;
-                            break;
-                        case CalcEnum.Multiplication:
-                            var mulRes = new CalcRepository().MultiplicationOperation(xmldata.Operation[i].Value);
-                            xmldata.Operation[i].Result = mulRes;
-                            break;
-                        case CalcEnum.Division:
-                            var divRes = new CalcRepository().DivisionOperation(xmldata.Operation[i].Value);
-                            xmldata.Operation[i].Result = divRes;
-                            break;
-
-                    }
-
+                    ReadPropertiesRecursive(maths.Operation[i]);
                 }
-                return ToXElement<Maths>(xmldata).ToString();
+                return ToXElement<Maths>(maths).ToString();
             }
             else
             {
                 return null;
             }
-            
+        }
+
+        private static Operation Calculate(Operation operation)
+        {
+            var myenum = (CalcEnum)Enum.Parse(typeof(CalcEnum), operation.ID);
+            switch (myenum)
+            {
+                case CalcEnum.Plus:
+                    var addRes = new CalcRepository().AdditionOperation(operation.Value);
+                    operation.Result = addRes;
+                    break;
+                case CalcEnum.Subtraction:
+                    var subRes = new CalcRepository().SubractionOperation(operation.Value);
+                    operation.Result = subRes;
+                    break;
+                case CalcEnum.Multiplication:
+                    var mulRes = new CalcRepository().MultiplicationOperation(operation.Value);
+                    operation.Result = mulRes;
+                    break;
+                case CalcEnum.Division:
+                    var divRes = new CalcRepository().DivisionOperation(operation.Value);
+                    operation.Result = divRes;
+                    break;
+            }
+            return operation;
+        }
+
+        private static void ReadPropertiesRecursive(Operation operation)
+        {
+            foreach (PropertyInfo property in operation.GetType().GetProperties())
+            {
+                if (property.PropertyType.IsClass)
+                {
+                    Operation operation_Sub = property.GetValue(operation, null) as Operation;
+                    if (operation_Sub != null)
+                    {
+                        ReadPropertiesRecursive(operation_Sub);
+                    }
+                    else
+                    {
+                        Calculate(operation);
+                        break;
+                    }
+                }
+            }
         }
     }
 }

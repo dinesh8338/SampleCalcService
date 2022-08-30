@@ -8,10 +8,10 @@ namespace SampleCalcService.Entities.Enum
 {
     public enum CalcEnum
     {
-        Plus=1,
-        Addition=2,
-        Multiplication=3,
-        Subraction=4,
-        Division=5
+        Plus = 1,
+        Addition = 2,
+        Multiplication = 3,
+        Subtraction = 4,
+        Division = 5
     }
 }
